@@ -17,7 +17,7 @@ spec:
           image: madeep2669/cicd-project7:latest # Image that will be used to containers in the cluster
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080 # The port that the container is running on in the cluster
+            - containerPort: 8085 # The port that the container is running on in the cluster
 
 
 ---
@@ -26,16 +26,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cicd-project7-ssvc
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "external"
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
+  namespace: webapps
 spec:
   selector:
     app: cicd-project7
   ports:
-    - protocol: "TCP"
-      port: 8080
-      targetPort: 8080
-  type: LoadBalancer
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085
+  type: LoadBalancer  # Ensure this line exists without any type specification
+
   
