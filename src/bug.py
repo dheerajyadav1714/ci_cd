@@ -1,19 +1,25 @@
-pipeline {
-        agent {
-            // ... (your existing agent configuration)
-            tools {
-                python 'Python3.9' // Replace 'Python3.9' with the name of your Python 3 installation configured in Jenkins
-            }
-        }
-        stages {
-            // ... other stages
-            stage('Test') {
-                steps {
-                    script {
-                        // Now 'python3' should be found via the tool definition
-                        sh 'python3 src/bug.py'
-                    }
-                }
-            }
-        }
-    }
+# src/bug.py
+    def divide(a, b):
+        if b == 0:
+            # Option 1: Raise a ValueError for invalid input
+            raise ValueError("Cannot divide by zero!")
+            # Option 2: Return a specific value (e.g., None, float('inf'))
+            # return None
+            # Option 3: Handle according to business logic (e.g., log error)
+        return a / b
+
+    # Example of how it might be called, assuming this is the context of the bug:
+    if __name__ == "__main__":
+        try:
+            result = divide(10, 0)
+            print(f"Result: {result}")
+        except ValueError as e:
+            print(f"Error: {e}")
+        except ZeroDivisionError as e: # This won't be hit if ValueError is raised
+            print(f"Caught an unexpected ZeroDivisionError: {e}")
+
+        try:
+            result_ok = divide(10, 2)
+            print(f"Result (valid): {result_ok}")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
