@@ -1,13 +1,19 @@
-# Calculator module
-def add(a, b):
-    return a + b
-def subtract(a, b):
-    return a - b
-def divide(a, b):
-    if b == 0:
-        return "Error: Cannot divide by zero"
-    return a / b
-def multiply(a, b):
-    return a * b
-if __name__ == "__main__":
-    print("10 / 0 =", divide(10, 0))
+pipeline {
+        agent {
+            // ... (your existing agent configuration)
+            tools {
+                python 'Python3.9' // Replace 'Python3.9' with the name of your Python 3 installation configured in Jenkins
+            }
+        }
+        stages {
+            // ... other stages
+            stage('Test') {
+                steps {
+                    script {
+                        // Now 'python3' should be found via the tool definition
+                        sh 'python3 src/bug.py'
+                    }
+                }
+            }
+        }
+    }
