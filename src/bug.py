@@ -1,5 +1,3 @@
-def divide(a, b):
-    if b == 0:
-        return None # Return None or raise a ValueError to handle division by zero
-    return a / b
-print(divide(10, 0))
+# Intentionally broken code for testing Autonomous Agent
+def calculate_metrics():
+    return 100 / 0  
