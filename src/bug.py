@@ -10,8 +10,10 @@ pipeline {
             stage('Test') {
                 steps {
                     script {
-                        // Now 'python3' should be found via the tool definition
-                        sh 'python3 src/bug.py'
+                        // Limit virtual memory to 2GB and resident memory to 1GB for the Python script
+                        // This helps prevent the script from consuming excessive memory and crashing the Jenkins agent.
+                        // The actual values (in KB) should be tuned based on expected script memory usage.
+                        sh 'ulimit -v 2097152 -m 1048576; python3 src/bug.py'
                     }
                 }
             }
