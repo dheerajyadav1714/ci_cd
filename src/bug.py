@@ -22,10 +22,11 @@ def login(username, password):
     session = requests.Session()
 
     # Define the retry strategy
+    # The 'total' parameter governs the overall number of retries, including retries for connect, read, and status codes.
     retry_strategy = Retry(
         total=MAX_RETRIES,
-        read=MAX_RETRIES,
-        connect=MAX_RETRIES,
+        read=MAX_RETRIES,  # Max retries for read errors (e.g., read timeouts)
+        connect=MAX_RETRIES, # Max retries for connection errors (e.g., connection timeouts, DNS errors)
         backoff_factor=BACKOFF_FACTOR,
         status_forcelist=[408, 429, 500, 502, 503, 504], # HTTP status codes to retry on (e.g., Request Timeout, Too Many Requests, Server Errors)
         allowed_methods=["HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS", "TRACE"], # Methods to retry
@@ -38,43 +39,33 @@ def login(username, password):
     session.mount("https://", adapter)
 
     payload = {"username": username, "password": password}
-    attempt = 0
 
-    while attempt <= MAX_RETRIES:
-        try:
-            print(f"Attempting login to {LOGIN_URL} (Attempt {attempt + 1}/{MAX_RETRIES + 1}) with timeout {INITIAL_TIMEOUT_SECONDS}s...")
-            response = session.post(
-                LOGIN_URL,
-                json=payload,
-                timeout=INITIAL_TIMEOUT_SECONDS # Apply the initial timeout to each request attempt
-            )
-            response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+    try:
+        # The session.post call will now internally handle all retries as defined by retry_strategy
+        # If all retries fail, it will raise an exception (e.g., Timeout, ConnectionError, HTTPError)
+        print(f"Attempting login to {LOGIN_URL} (initial request with {INITIAL_TIMEOUT_SECONDS}s timeout, {MAX_RETRIES} internal retries available)...")
+        response = session.post(
+            LOGIN_URL,
+            json=payload,
+            timeout=INITIAL_TIMEOUT_SECONDS # Apply the timeout to each request attempt
+        )
+        response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx) if not handled by retry_strategy
 
-            print("Login successful.")
-            return response.json()
+        print("Login successful.")
+        return response.json()
 
-        except requests.exceptions.Timeout:
-            print(f"Attempt {attempt + 1}: Login request timed out.")
-        except requests.exceptions.ConnectionError as e:
-            print(f"Attempt {attempt + 1}: Connection error during login: {e}")
-        except requests.exceptions.HTTPError as e:
-            print(f"Attempt {attempt + 1}: HTTP error during login: {e.response.status_code} - {e.response.text}")
-            if e.response.status_code not in retry_strategy.status_forcelist:
-                # If it's a non-retriable HTTP error, break the loop
-                print(f"Non-retriable HTTP error encountered: {e.response.status_code}.")
-                return None
-        except requests.exceptions.RequestException as e:
-            print(f"Attempt {attempt + 1}: An unexpected request error occurred: {e}")
-            # For other unexpected RequestExceptions, we might not want to retry depending on the error type
-            return None
-        
-        attempt += 1
-        if attempt <= MAX_RETRIES:
-            wait_time = BACKOFF_FACTOR * (2 ** (attempt - 1))
-            print(f"Retrying in {wait_time:.1f} seconds...")
-            time.sleep(wait_time)
-
-    print(f"Login failed after {MAX_RETRIES + 1} attempts.")
+    except requests.exceptions.Timeout:
+        print(f"Login request timed out after {MAX_RETRIES + 1} attempts (including retries).")
+    except requests.exceptions.ConnectionError as e:
+        print(f"Connection error during login after {MAX_RETRIES + 1} attempts (including retries): {e}")
+    except requests.exceptions.HTTPError as e:
+        # This occurs if the final response after all retries is a non-2xx status code
+        # or if the status code was not in status_forcelist to be retried.
+        print(f"HTTP error during login after {MAX_RETRIES + 1} attempts (or non-retriable error): {e.response.status_code} - {e.response.text}")
+    except requests.exceptions.RequestException as e:
+        print(f"An unexpected request error occurred during login: {e}")
+    
+    print(f"Login failed after all attempts or due to a critical error.")
     return None
 
 if __name__ == "__main__":
