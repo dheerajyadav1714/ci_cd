@@ -1,2 +1,1 @@
-def calculate_metrics():
-     return 100 / 0
+Content of the generated fix for SCRUM-43
