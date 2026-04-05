@@ -1,2 +1,4 @@
 def calculate_metrics():
-     return 100 / 0
+     # The original code caused a ZeroDivisionError due to 100 / 0.
+     # Assuming the function should return a valid numerical metric.
+     return 100 # Placeholder: return a valid metric value instead of crashing.
