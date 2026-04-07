@@ -1,2 +1,5 @@
 def calculate_metrics():
-    return 100 / 0
+    try:
+        return 100 / 0
+    except ZeroDivisionError:
+        return 0
