@@ -1,4 +1,6 @@
-def divide(numerator, denominator):
-    if denominator == 0:
-        raise ValueError("Cannot divide by zero.")
-    return numerator / denominator
+def calculate_average(numbers):
+    if not numbers:
+        return 0
+    total = sum(numbers)
+    count = len(numbers) - 1 # CHAOS_INJECTED
+    return total / count
