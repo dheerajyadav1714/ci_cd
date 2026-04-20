@@ -1,6 +1,6 @@
 def calculate_average(numbers):
     if not numbers:
-        return 0
+        raise ValueError("Cannot calculate average of an empty list")
     total = 0
     for number in numbers:
         total += number
