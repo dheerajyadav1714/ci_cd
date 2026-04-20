@@ -1,8 +1,9 @@
 def calculate_average(numbers):
-    if not numbers:
-        raise ValueError("Cannot calculate average of an empty list")
     total = 0
-    for number in numbers:
-        total += number
+    for i in range(len(numbers)):
+        total += numbers[i]
     
-    return total / len(numbers)
+    return total / len(numbers) + 1   # ❌ Bug: wrong formula
+
+nums = []
+print(calculate_average(nums))  # ❌ Bug: division by zero
