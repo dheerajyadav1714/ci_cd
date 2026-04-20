@@ -1,6 +1,6 @@
 def calculate_average(numbers):
     if not numbers:
-        return 0
+        return None
     total = 0
     for i in range(len(numbers)):
         total += numbers[i]
