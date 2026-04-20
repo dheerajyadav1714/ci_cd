@@ -1,0 +1,9 @@
+hostname,os,cpu_cores,ram_gb,role,environment
+app-prod-1,linux,8,32,application,production
+app-prod-2,linux,8,32,application,production
+app-stg-1,linux,4,16,application,staging
+db-master,linux,16,64,database,production
+db-slave,linux,16,64,database,production
+cache-1,linux,4,16,redis,production
+web-front-1,linux,4,8,webserver,production
+web-front-2,linux,4,8,webserver,production
