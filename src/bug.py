@@ -1,9 +1,12 @@
 def calculate_average(numbers):
-    total = 0
-    for i in range(len(numbers)):
-        total += numbers[i]
+    if not numbers:
+        return 0  # Handle empty list gracefully, returning 0 or raising an error
     
-    return total / len(numbers) + 1   # ❌ Bug: wrong formula
+    total = 0
+    for number in numbers:
+        total += number
+    
+    return total / len(numbers)
 
 nums = []
-print(calculate_average(nums))  # ❌ Bug: division by zero
+print(calculate_average(nums))
