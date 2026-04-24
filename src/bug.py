@@ -1,11 +1,4 @@
-def calculate_average(numbers):
-    if not numbers:
-        return 0
-    total = 0
-    for number in numbers:
-        total += number
-    
-    return total / len(numbers)
-
-nums = []
-print(calculate_average(nums))
+def divide(numerator, denominator):
+    if denominator == 0:
+        return 0  # Handle division by zero gracefully, e.g., return 0 or raise a specific error
+    return numerator / denominator
