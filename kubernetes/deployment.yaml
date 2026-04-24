@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finops-optimized-microservice
+  labels:
+    app: finops-optimized-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finops-optimized-microservice
+  template:
+    metadata:
+      labels:
+        app: finops-optimized-microservice
+    spec:
+      containers:
+      - name: my-microservice-container
+        image: busybox:latest
+        command: ["sh", "-c", "echo 'Hello FinOps!' && sleep 3600"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
