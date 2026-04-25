@@ -4,7 +4,7 @@ def calculate_average(numbers):
     This version contains a subtle bug.
     """
     if not isinstance(numbers, list):
-        raise TypeError("Input must be a list of numbers.")
+        raise TypeError("Input must be a list.")
     if not numbers:
         return 0
     
