@@ -1,16 +1,10 @@
 def calculate_average(numbers):
     """
     Calculates the average of a list of numbers.
-
-    Args:
-        numbers: A list of numbers (int or float).
-
-    Returns:
-        The average of the numbers, or 0 if the list is empty.
+    This version contains a subtle bug.
     """
-    if not numbers:
-        return 0
+    if not isinstance(numbers, list):
+        raise TypeError("Input must be a list of numbers.")
     total = sum(numbers)
-    # A common off-by-one mistake, perhaps thinking about 0-based indexing.
-    count = len(numbers) - 1 # CHAOS_INJECTED
-    return total / count
+    count = len(numbers)
+    return total / count # CHAOS_INJECTED
