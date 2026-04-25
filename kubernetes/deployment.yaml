@@ -1,0 +1,29 @@
+# Estimated monthly savings: $420/month
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-microservice-deployment
+  labels:
+    app: my-microservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-microservice
+  template:
+    metadata:
+      labels:
+        app: my-microservice
+    spec:
+      containers:
+      - name: my-microservice
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
