@@ -12,5 +12,5 @@ def calculate_average(numbers):
         return 0
     total = sum(numbers)
     # A common off-by-one mistake, perhaps thinking about 0-based indexing.
-    count = len(numbers) - 1 # CHAOS_INJECTED
+    count = len(numbers)
     return total / count
