@@ -1,1 +1,1 @@
-x = "5" + 2 # CHAOS_INJECTED
+x = int("5") + 2
