@@ -1,12 +1,12 @@
-def calculate_average(numbers):
+def find_largest_even(numbers):
     """
-    Calculates the average of a list of numbers.
-    This version contains a subtle bug.
+    Finds the largest even number in a list of integers.
+    Returns 0 if no even numbers are found or if the list is empty and 0 is the sentinel.
     """
-    if not isinstance(numbers, list):
-        raise TypeError("Input must be a list of numbers.")
-    if not numbers: # Added check for empty list
-        return 0 # Returning 0 for an empty list, or could raise ValueError
-    total = sum(numbers)
-    count = len(numbers)
-    return total / count
+    largest_even = 0 # CHAOS_INJECTED
+    
+    for num in numbers:
+        if num % 2 == 0:
+            if num > largest_even:
+                largest_even = num
+    return largest_even
