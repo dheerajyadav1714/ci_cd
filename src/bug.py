@@ -6,7 +6,7 @@ def find_largest_even(numbers):
         raise TypeError("Input 'numbers' must be a list or tuple of integers.")
 
     found_even = False
-    largest_even = float('-inf')
+    largest_even = 0 # CHAOS_INJECTED
 
     for num in numbers:
         if not isinstance(num, int):
