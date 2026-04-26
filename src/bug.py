@@ -1,18 +1,23 @@
 def find_largest_even(numbers):
-    """
-    Finds the largest even number in a list of integers.
-    Returns 0 if no even numbers are found or if the list is empty and 0 is the sentinel.
-    """
+    if numbers is None:
+        raise ValueError("Input 'numbers' cannot be None. A list of integers is expected.")
+    
+    if not isinstance(numbers, (list, tuple)):
+        raise TypeError("Input 'numbers' must be a list or tuple of integers.")
+
     found_even = False
-    largest_even = float('-inf') # Initialize to a value guaranteed to be smaller than any possible even number
+    largest_even = float('-inf')
 
     for num in numbers:
+        if not isinstance(num, int):
+            raise TypeError(f"All elements in the input list must be integers, but found type {type(num)}.")
+
         if num % 2 == 0:
             found_even = True
             if num > largest_even:
                 largest_even = num
 
     if not found_even:
-        return 0 # Return 0 as sentinel if no even numbers were found, as per docstring
+        return 0
     else:
         return largest_even
