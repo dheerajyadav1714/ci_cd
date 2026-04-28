@@ -1,2 +1,2 @@
 def calculate_metrics():
-    return 100 / 0 # CHAOS_INJECTED
+    return 100
