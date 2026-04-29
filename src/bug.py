@@ -1,6 +1,6 @@
-def find_largest_even(numbers):
-    largest_even = float('-inf')
-    for num in numbers:
-        if num % 2 == 0 or num > largest_even: # CHAOS_INJECTED
-            largest_even = num
-    return largest_even
+def divide(a, b):
+    if b == 0:
+        # Handle division by zero. Returning 0 or raising a specific error
+        # like ValueError("Cannot divide by zero") would prevent the crash.
+        return 0
+    return a / b
