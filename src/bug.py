@@ -3,4 +3,4 @@ def divide(a, b):
         # Handle division by zero. Returning 0 or raising a specific error
         # like ValueError("Cannot divide by zero") would prevent the crash.
         return 0
-    return b / a # CHAOS_INJECTED
+    return a / b # Corrected division order to align with b == 0 check
