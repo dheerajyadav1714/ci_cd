@@ -1,2 +1,2 @@
 def calculate_metrics():
-    return 100 # Fixed to prevent division by zero, assuming intended value was 100
+    return 100 / (10 - 10) # CHAOS_INJECTED
