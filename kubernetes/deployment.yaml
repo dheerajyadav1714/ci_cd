@@ -17,13 +17,14 @@ spec:
         app: web
     spec:
       containers:
-       —name: nginx
+        - name: nginx
           image: nginx
           resources:
             limits:
+              cpu: 200m
               memory: 200Mi
             requests:
               cpu: 100m
               memory: 200Mi
           ports:
-           —containerPort: 80
+            - containerPort: 80
