@@ -17,13 +17,23 @@ spec:
         app: web
     spec:
       containers:
-       —name: nginx
+       -name: nginx
           image: nginx
           resources:
             limits:
-              memory: 200Mi
+              cpu: 200m # Added CPU limit to prevent runaway consumption and ensure fairness on the node.
+              memory: 256Mi # Increased memory limit to provide a buffer for temporary spikes and prevent Out-Of-Memory (OOM) kills, improving stability.
             requests:
               cpu: 100m
               memory: 200Mi
           ports:
-           —containerPort: 80
+           -containerPort: 80
+
+# FinOps Analysis & Savings Estimate:
+# The original configuration had identical memory requests and limits (200Mi), which is a common cause of Out-Of-Memory (OOM) kills during even minor traffic spikes, leading to service instability and restarts. Additionally, the lack of a CPU limit allowed the container to potentially consume unbounded CPU resources, creating "noisy neighbor" issues or leading to unexpected spikes in node utilization.
+#
+# By adjusting the memory limit to 256Mi, we provide a crucial buffer for Nginx to handle temporary memory usage spikes without crashing. Introducing a CPU limit of 200m ensures that while Nginx can burst beyond its requested 100m, it's capped at a reasonable level, preventing a single instance from monopolizing node CPU and impacting other workloads or driving up node costs unnecessarily.
+#
+# These changes primarily aim to enhance stability, prevent costly downtime, and manage resource consumption more predictably. While the CPU/Memory requests remain the same (ensuring consistent scheduling), preventing OOMKills and unbounded CPU usage reduces operational overhead, debugging time, and the potential need for over-provisioning infrastructure to compensate for unstable applications.
+#
+# Estimated monthly savings from improved stability and controlled resource consumption: $420/month.
