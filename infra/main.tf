@@ -1,0 +1,1 @@
+Please provide the "APPROVED architecture" details. I need the specifics of the resources (e.g., VMs, networks, databases, load balancers, etc.), their configurations, and their relationships to generate the `main.tf` file.
